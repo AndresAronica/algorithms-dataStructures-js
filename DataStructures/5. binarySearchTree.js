@@ -1,4 +1,4 @@
-class Node {
+class TreeNode {
 	constructor(value) {
 		this.value = value;
 		this.left = null;
@@ -13,7 +13,7 @@ class BinarySearchTree {
 
 	// O(log n)
 	insert(value) {
-		let newNode = new Node(value);
+		let newNode = new TreeNode(value);
 		if (this.root === null) {
 			this.root = newNode;
 			return this;
@@ -109,6 +109,25 @@ class BinarySearchTree {
 			}
 		}
 		return false;
+	}
+
+	BFS() {
+		let dataToReturn = [];
+		let nodesToVisit = new Queue()
+		let currentNode = this.root;
+
+		nodesToVisit.enqueue(currentNode);
+
+		while (nodesToVisit.size > 0) {
+			// Saco el nodo actual de la queue, porque ya lo visite
+			currentNode = nodesToVisit.dequeue().value;
+			// Agrego su valor al array que voy a devolver
+			dataToReturn.push(currentNode.value);
+			// Me fijo si tiene elementos a la izquierda y a la derecha, para agregarlos a la queue
+			if (currentNode.left) nodesToVisit.enqueue(currentNode.left);
+			if (currentNode.right) nodesToVisit.enqueue(currentNode.right);
+		}
+		return dataToReturn;
 	}
 }
 
