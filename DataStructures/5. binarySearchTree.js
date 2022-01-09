@@ -129,6 +129,53 @@ class BinarySearchTree {
 		}
 		return dataToReturn;
 	}
+	
+	// En PreOrder el primer nodo que se visita es root. Se visita de arriba hacia abajo
+	DFSPreOrder() {
+		let dataToReturn = [];
+		function traverse(node) {
+			// Pongo el nodo en el array porque ya lo visite y sigo bajando
+			dataToReturn.push(node.value);
+
+			// Sigo recorriendo de forma recursiva hacia abajo
+			if(node.left) traverse(node.left);
+			if(node.right) traverse(node.right);
+		}
+		traverse(this.root);
+		return dataToReturn;
+	}
+	
+	// En PostOrder el ultimo nodo que se visita es root. Se visita de abajo hacia arriba
+	// Se puede usar para exportar la estructura del arbol de una forma facil de copiar/clonar/almacenar la estructura
+	DFSPostOrder() {
+		let dataToReturn = [];
+		function traverse(node) {
+			// Recorro de forma recursiva hasta el final del arbol
+			if(node.left) traverse(node.left);
+			if(node.right) traverse(node.right);
+
+			// Una vez que llegue al final, pongo el nodo en el array porque ya lo visite y vuelvo para arriba
+			dataToReturn.push(node.value);
+		}
+		traverse(this.root);
+		return dataToReturn;
+	}
+
+	// En InOrder se visita de izquierda a derecha, de abajo hacia arriba
+	// Si se usa en un BST, el resultado van a ser los valores ordenados de forma ascendente
+	DFSInOrder() {
+		let dataToReturn = [];
+		function traverse(node) {
+			// Recorro de forma recursiva hasta el final del lado izquierdo del arbol
+			node.left && traverse(node.left);
+			// Una vez que llegue al final, pongo el nodo en el array porque ya lo visite y voy a visitar el lado derecho
+			dataToReturn.push(node.value);
+			// Se puede escribir de esta forma tambien. Misma logica que el if
+			node.right && traverse(node.right);
+		}
+		traverse(this.root);
+		return dataToReturn;
+	}
 }
 
 /*
