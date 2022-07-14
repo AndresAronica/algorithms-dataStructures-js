@@ -76,14 +76,100 @@ class Graph {
 		// No se que deberia retornar?
 		return 1;
 	}
+
+	// Se haria con un Stack
+	depthFirstSearchRecursive(startVertex) {
+		const result = [];
+		const visitedVertices = {};
+		const adjacencyList = this.adjacencyList;
+
+		(function dfs(vertex) {
+			if (!vertex) return null;
+
+			visitedVertices[vertex] = true;
+
+			result.push(vertex);
+
+			adjacencyList[vertex].forEach(neighbor => {
+				if (!visitedVertices[neighbor]) return dfs(neighbor);
+			})
+
+		})(startVertex);
+
+		return result;
+	}
+
+	// Se haria con un Stack
+	depthFirstSearchIterative(startVertex) {
+		const result = [];
+		const visitedVertices = {};
+		const stack = [startVertex];
+		let currentVertex;
+
+		visitedVertices[startVertex] = true;
+
+		while(stack.length) { 
+			currentVertex = stack.pop();
+
+			result.push(currentVertex);
+
+			this.adjacencyList[currentVertex].forEach(neighbor => {
+				if (!visitedVertices[neighbor]) {
+					visitedVertices[neighbor] = true;
+					stack.push(neighbor);
+				}
+			});
+		}
+
+		return result;
+	}
+
+	// Se haria con una Queue
+	breadthFirstSearch(startVertex) {
+		const queue = [startVertex];
+		const result = [];
+		const visitedVertices = {};
+		let currentVertex;
+
+		visitedVertices[startVertex] = true;
+
+		while (queue.length) {
+			currentVertex = queue.shift();
+			result.push(currentVertex);
+
+			this.adjacencyList[currentVertex].forEach(neighbor => {
+				if (!visitedVertices[neighbor]) {
+					visitedVertices[neighbor] = true;
+					queue.push(neighbor);
+				}
+			});
+		}
+
+		return result;
+	}
 }
 
 let graph = new Graph();
-graph.addVertex("Cordoba");
-graph.addVertex("Rosario");
-graph.addVertex("BuenosAires");
+// graph.addVertex("Cordoba");
+// graph.addVertex("Rosario");
+// graph.addVertex("BuenosAires");
 
-graph.addEdge("Cordoba", "Rosario");
-graph.addEdge("Cordoba", "BuenosAires");
+// graph.addEdge("Cordoba", "Rosario");
+// graph.addEdge("Cordoba", "BuenosAires");
 
-console.log(graph);
+// console.log(graph);
+
+graph.addVertex("A")
+graph.addVertex("B")
+graph.addVertex("C")
+graph.addVertex("D")
+graph.addVertex("E")
+graph.addVertex("F")
+
+graph.addEdge("A", "B")
+graph.addEdge("A", "C")
+graph.addEdge("B", "D")
+graph.addEdge("C", "E")
+graph.addEdge("D", "E")
+graph.addEdge("D", "F")
+graph.addEdge("E", "F")
